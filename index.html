@@ -8,10 +8,10 @@
         body {
             display: flex;
             align-items: flex-start;
-            justify-content: center;
+            justify-content: space-around;
             min-height: 100vh;
             margin: 0;
-            background-color: #1a1a1a;
+            background-color: #1a1a1a; 
             font-family: 'Arial', sans-serif;
             color: #ffffff; 
         }
@@ -20,10 +20,10 @@
             background-color: #2a2a2a; 
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
             text-align: center;
-            margin-top: 50px;
             width: 300px; 
+            margin-bottom: 20px;
         }
 
         label {
@@ -36,10 +36,10 @@
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            border-radius: 20px;
+            border-radius: 20px; 
             border: none;
-            background-color: #3a3a3a;
-            color: #ffffff;
+            background-color: #3a3a3a; 
+            color: #ffffff; 
         }
 
         button {
@@ -65,30 +65,64 @@
             font-weight: bold;
             color: #4caf50;
         }
+
+        #hideButton {
+            background-color: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #hideButton:hover {
+            background-color: #e68a00;
+        }
+
+        #generatedCoordinates {
+            margin-top: 10px;
+            font-weight: bold;
+
+            display: none;
+        }
     </style>
 </head>
 <body>
     <form id="coordinateForm">
-        <label for="xCoordinate">Position 1:</label>
+        <label for="xCoordinate">Left</label>
         <input type="number" id="xCoordinate" required>
         
-        <label for="yCoordinate">Position 2:</label>
+        <label for="yCoordinate">Top</label>
         <input type="number" id="yCoordinate" required>
         
-        <button type="button" onclick="generateRegex()">Generate Regex</button>
+        <button type="button" onclick="generateAndCopyRegex()">Submit</button>
 
         <p id="output"></p>
     
+
         <p id="clipboardMessage"></p>
     </form>
 
+    <form id="generateCoordinatesForm">
+        <label for="generateXCoordinate"></label>
+        <button type="button" onclick="generateCoordinates()">Generate Voices Position</button>
+        
+
+        <button type="button" id="hideButton" onclick="hideGeneratedCoordinates()">Hide Voices Position</button>
+
+        <p id="generatedCoordinates"></p>
+    </form>
+
     <script>
-        function generateRegex() {
+        function generateAndCopyRegex() {
             const xCoordinate = document.getElementById('xCoordinate').value;
             const yCoordinate = document.getElementById('yCoordinate').value;
 
+
             if (xCoordinate >= 1 && xCoordinate <= 12 && yCoordinate >= 1 && yCoordinate <= 12) {
                 const regexOutput = `pos:${xCoordinate},${yCoordinate} "1 small passive"`;
+
 
                 const textarea = document.createElement('textarea');
                 textarea.value = regexOutput;
@@ -97,12 +131,29 @@
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
 
-                document.getElementById('output').innerText = 'Regex copied to clipboard:\n' + regexOutput;
+
+                document.getElementById('output').innerText = regexOutput;
+
 
                 document.getElementById('clipboardMessage').innerText = 'Regex copied to clipboard!';
             } else {
                 alert('Invalid coordinates. Please enter values between 1 and 12.');
             }
+        }
+
+        function generateCoordinates() {
+            const generatedX = Math.floor(Math.random() * 12) + 1; 
+            const generatedY = Math.floor(Math.random() * 12) + 1;
+
+            document.getElementById('generatedCoordinates').innerText = `Position Left: ${generatedX}, Top: ${generatedY}`;
+            
+
+            document.getElementById('generatedCoordinates').style.display = 'block';
+        }
+
+        function hideGeneratedCoordinates() {
+
+            document.getElementById('generatedCoordinates').style.display = 'none';
         }
     </script>
 </body>
